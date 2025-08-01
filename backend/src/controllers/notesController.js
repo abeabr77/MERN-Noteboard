@@ -16,7 +16,7 @@ export async function getNoteById(req, res) {
         if (!note) return res.status(404).json({message: "note not found"})
         res.json(note);
     } catch (error) {
-        console,error("error");
+        console.error("error");
         res.status(500).json({message: "server errpr"});
     }
 }

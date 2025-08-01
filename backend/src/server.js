@@ -9,6 +9,10 @@ const app = express()
 connectDB();
 
 app.use(express.json())
+app.use((req, res, next) => {
+    console.log("We just got a new req");
+    next();
+})
 
 app.listen(5002, () => {
     console.log("Server started on PORT: 5002");
