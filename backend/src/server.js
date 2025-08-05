@@ -2,20 +2,32 @@ import express from "express"
 import notesRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv"
-dotenv.config();
+import rateLimit from 'express-rate-limit';
+dotenv.config( {path: './devcontainer.env'});
 
 const app = express()
 
-connectDB();
+
 
 app.use(express.json())
-app.use((req, res, next) => {
-    console.log("We just got a new req");
-    next();
+
+const limiter = rateLimit({
+    windowMs: 1 * 60 ^ 1000,
+    max: 100,
 })
 
-app.listen(5002, () => {
-    console.log("Server started on PORT: 5002");
+app.use(limiter);
+
+
+//app.use((req, res, next) => {
+//    console.log("req method is ${req.method}");
+//    next();
+//})
+
+connectDB().then(() => {
+    app.listen(5001, () => {
+        console.log("Server started on PORT: 5001")
+    });
 });
 
 app.use("/api/notes", notesRoutes)
