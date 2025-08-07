@@ -4,7 +4,7 @@ import { connectDB } from "./config/db.js";
 import dotenv from "dotenv"
 import rateLimit from 'express-rate-limit';
 dotenv.config( {path: './devcontainer.env'});
-
+import cors from "cors";
 const app = express()
 
 
@@ -17,7 +17,9 @@ const limiter = rateLimit({
 })
 
 app.use(limiter);
-
+app.use(cors({
+    origin:"http://localhost:5173",
+}));
 
 //app.use((req, res, next) => {
 //    console.log("req method is ${req.method}");
